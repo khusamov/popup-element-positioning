@@ -1,0 +1,37 @@
+{
+  "name": "popup-element-positioning",
+  "description": "Позиционирование всплывающих элементов в React",
+  "version": "0.1.0",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/khusamov/popup-element-positioning"
+  },
+  "scripts": {
+    "start": "rollup --config --watch",
+    "build": "rollup --config"
+  },
+  "dependencies": {
+    "@rollup/plugin-commonjs": "^11.0.1",
+    "@rollup/plugin-html": "^0.1.1",
+    "@rollup/plugin-json": "^4.0.1",
+    "@rollup/plugin-node-resolve": "^7.0.0",
+    "@rollup/plugin-replace": "^2.3.0",
+    "@rollup/plugin-typescript": "^2.1.0",
+    "@types/node": "^13.1.7",
+    "@types/react": "^16.9.17",
+    "@types/react-dom": "^16.9.4",
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0",
+    "rollup": "^1.29.0",
+    "rollup-plugin-delete": "^1.1.0",
+    "rollup-plugin-livereload": "^1.0.4",
+    "rollup-plugin-postcss": "^2.0.3",
+    "rollup-plugin-progress": "^1.1.1",
+    "rollup-plugin-serve": "^1.0.1",
+    "rollup-plugin-smart-asset": "^2.0.7",
+    "rollup-plugin-terser": "^5.2.0",
+    "tslib": "^1.10.0",
+    "typescript": "^3.7.4"
+  }
+}
