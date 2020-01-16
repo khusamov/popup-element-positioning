@@ -80,8 +80,11 @@ export default {
 
 		commonjs({
 			namedExports: {
-				'react': ['Children', 'Component', 'PropTypes', 'createElement'],
-				'react-dom': ['render']
+				'react': ['Children', 'Component', 'PropTypes', 'createElement', 'useState',
+					'useRef', 'useMemo', 'useEffect', 'useCallback', 'useDebugValue', 'memo', 'forwardRef',
+					'PureComponent'],
+				'react-dom': ['render', 'unstable_batchedUpdates', 'createPortal'],
+				'@material-ui/utils': ['getDisplayName', 'exactProp', 'deepmerge', 'chainPropTypes', 'ponyfillGlobal']
 			}
 		}),
 
