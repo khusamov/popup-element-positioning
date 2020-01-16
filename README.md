@@ -10,3 +10,12 @@
 - Фокус на плавающем элементе
 - Скрытие плавающего элемента при потере фокуса на нем или на дочерних элементах
 - Расчет смещения элемента, если он вышел за пределы окна браузера
+
+Ссылки по теме
+--------------
+
+https://learn.javascript.ru/coordinates#document-coordinates
+
+https://learn.javascript.ru/metrics-window
+
+https://github.com/khusamov/leading/tree/master/rollup
