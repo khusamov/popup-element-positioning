@@ -12,7 +12,16 @@ interface IFloatingDivProps {
 
 const createFloatingDiv = styled(
 	forwardRef<HTMLDivElement, IFloatingDivProps & TDivProps>(({x, y, ...other}, ref) => (
-		<div ref={ref} tabIndex={-1} {...other}/>
+		<div
+			ref={ref}
+
+			// tabindex="-1" позволяет фокусироваться на элементе только программно.
+			// Клавиша Tab проигнорирует такой элемент, но метод elem.focus() будет действовать.
+			// https://learn.javascript.ru/focus-blur#vklyuchaem-fokusirovku-na-lyubom-elemente-tabindex
+			tabIndex={-1}
+
+			{...other}
+		/>
 	))
 );
 
