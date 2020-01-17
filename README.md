@@ -19,3 +19,5 @@ https://learn.javascript.ru/coordinates#document-coordinates
 https://learn.javascript.ru/metrics-window
 
 https://github.com/khusamov/leading/tree/master/rollup
+
+https://learn.javascript.ru/focus-blur#vklyuchaem-fokusirovku-na-lyubom-elemente-tabindex

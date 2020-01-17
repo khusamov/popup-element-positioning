@@ -4,6 +4,8 @@ import {observer} from 'mobx-react';
 import Floating from '../Floating';
 import {FloatingExampleContent} from './App.style';
 
+const positionFromEvent = (event: MouseEvent) => ({x: event.pageX, y: event.pageY});
+
 @observer
 export default class App extends Component {
 
@@ -15,7 +17,7 @@ export default class App extends Component {
 			<div onContextMenu={this.onDivContextMenu}>
 
 				{this.floatingVisibled && (
-					<Floating x={this.floatingPosition.x} y={this.floatingPosition.y}>
+					<Floating x={this.floatingPosition.x} y={this.floatingPosition.y} onBlur={this.onFloatingBlur}>
 						<FloatingExampleContent>
 							Плавающий блок.
 						</FloatingExampleContent>
@@ -33,7 +35,11 @@ export default class App extends Component {
 
 	private onDivContextMenu = (event: MouseEvent<HTMLDivElement>) => {
 		event.preventDefault();
-		this.floatingPosition = {x: event.pageX, y: event.pageY};
+		this.floatingPosition = positionFromEvent(event);
 		this.floatingVisibled = true;
+	};
+
+	private onFloatingBlur = () => {
+		this.floatingVisibled = false;
 	};
 };
