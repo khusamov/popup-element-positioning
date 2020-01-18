@@ -1,9 +1,9 @@
-import React, {createRef, useEffect, useState, forwardRef, useImperativeHandle, RefObject} from 'react';
+import React, {createRef, useEffect, useState, forwardRef, useImperativeHandle} from 'react';
 import {PropsWithChildren, MouseEventHandler, MouseEvent, FocusEvent} from 'react';
+import elementContainsRelatedTarget from '../../functions/elementContainsRelatedTarget';
 import createBodyPortal from '../../functions/createBodyPortal';
 import offsetOverflow from '../../functions/offsetOverflow';
 import {FloatingDiv} from './Floating.style';
-import elementContainsRelatedTarget from '../../functions/elementContainsRelatedTarget';
 
 interface IFloatingProps {
 
@@ -11,10 +11,11 @@ interface IFloatingProps {
 
 export interface IFloatingImperativeHandle {
 	/**
-	 * Изменить координаты плавающего элемента на основе события
+	 * Обработчик клика правой кнопкой мышки.
+	 * Изменяет координаты плавающего элемента на основе события
 	 * мышки (берутся свойства event.pageX и event.pageY).
 	 */
-	setPositionByMouseEvent: MouseEventHandler;
+	onContextMenu: MouseEventHandler;
 
 	/**
 	 * Изменить координаты плавающего элемента.
@@ -49,7 +50,7 @@ const Floating = (
 				}
 			}, [position.x, position.y]);
 			useImperativeHandle(ref, () => ({
-				setPositionByMouseEvent(event: MouseEvent) {
+				onContextMenu(event: MouseEvent) {
 					event.preventDefault();
 					this.setPosition(event.pageX, event.pageY);
 				},

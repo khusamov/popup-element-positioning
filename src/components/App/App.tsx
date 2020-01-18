@@ -30,7 +30,7 @@ export default class App extends Component {
 
 	private onDivContextMenu = (event: MouseEvent<HTMLDivElement>) => {
 		if (this.floatingRef.current) {
-			this.floatingRef.current.setPositionByMouseEvent(event);
+			this.floatingRef.current.onContextMenu(event);
 		}
 	};
 };
