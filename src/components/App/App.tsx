@@ -14,8 +14,8 @@ export default class App extends Component {
 
 				<Floating ref={this.floatingRef}>
 					<FloatingExampleContent>
-						Плавающий блок:
-						<input/>
+						<div>Плавающий блок:</div>
+						<div><input/></div>
 					</FloatingExampleContent>
 				</Floating>
 
