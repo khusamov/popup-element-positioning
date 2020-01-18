@@ -1,8 +1,9 @@
-import React, {createRef, useEffect, useState, forwardRef, useImperativeHandle} from 'react';
+import React, {createRef, useEffect, useState, forwardRef, useImperativeHandle, RefObject} from 'react';
 import {PropsWithChildren, MouseEventHandler, MouseEvent, FocusEvent} from 'react';
 import createBodyPortal from '../../functions/createBodyPortal';
 import offsetOverflow from '../../functions/offsetOverflow';
 import {FloatingDiv} from './Floating.style';
+import elementContainsRelatedTarget from '../../functions/elementContainsRelatedTarget';
 
 interface IFloatingProps {
 
@@ -35,10 +36,9 @@ const Floating = (
 			const [visibled, setVisibled] = useState(false);
 			const [position, setPosition] = useState({x: 0, y: 0});
 			const floatingDivRef = createRef<HTMLDivElement>();
-			const onFloatingDivBlur = (event: FocusEvent<HTMLDivElement>) => {
-				const floatingDiv = floatingDivRef.current;
-				// Фокус перемещен был на event.relatedTarget и плавающий элемент скрываем, если event.relatedTarget находится снаружи.
-				if (!(floatingDiv && event.relatedTarget instanceof Element && floatingDiv.contains(event.relatedTarget))) {
+			const onFloatingDivBlur = (event: FocusEvent) => {
+				// Скрываем плавающий элемент, если event.relatedTarget находится снаружи.
+				if (!elementContainsRelatedTarget(floatingDivRef, event)) {
 					setVisibled(false);
 				}
 			};
