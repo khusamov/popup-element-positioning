@@ -1,45 +1,70 @@
-import React, {Component, ReactNode, createRef} from 'react';
-import {observer} from 'mobx-react';
+import React, {createRef, useEffect, useState, forwardRef, useImperativeHandle} from 'react';
+import {PropsWithChildren, MouseEventHandler, MouseEvent, FocusEvent} from 'react';
 import createBodyPortal from '../../functions/createBodyPortal';
 import {FloatingDiv} from './Floating.style';
 
 interface IFloatingProps {
-	x: number;
-	y: number;
-	onBlur: () => void;
+
+}
+
+export interface IFloatingImperativeHandle {
+	/**
+	 * Изменить координаты плавающего элемента на основе события
+	 * мышки (берутся свойства event.pageX и event.pageY).
+	 */
+	setPositionByMouseEvent: MouseEventHandler;
+
+	/**
+	 * Изменить координаты плавающего элемента.
+	 * После изменения координат элемент становится видимым.
+	 */
+	setPosition: (x: number, y: number) => void;
 }
 
 /**
- * Floating.
+ * Плавающий элемент.
  */
- @observer
-export default class Floating extends Component<IFloatingProps> {
- 	private floatingDivRef = createRef<HTMLDivElement>();
-
-	public render(): ReactNode {
-		const {x, y, children, onBlur} = this.props;
-		return (
-			createBodyPortal(
-				<FloatingDiv
-					ref={this.floatingDivRef}
-					onBlur={onBlur}
-					{...{x, y, children}}
-				/>
-			)
-		);
-	}
-
-	componentDidUpdate(): void {
-		this.focus();
-	}
-
-	componentDidMount(): void {
-		this.focus();
-	}
-
-	private focus() {
-		if (this.floatingDivRef.current) {
-			this.floatingDivRef.current.focus();
+const Floating = (
+	forwardRef<IFloatingImperativeHandle, PropsWithChildren<IFloatingProps>>(
+		(props, ref) => {
+			const {children} = props;
+			const [visibled, setVisibled] = useState(false);
+			const [x, setX] = useState(0);
+			const [y, setY] = useState(0);
+			const floatingDivRef = createRef<HTMLDivElement>();
+			const onFloatingDivBlur = (event: FocusEvent<HTMLDivElement>) => {
+				const floatingDiv = floatingDivRef.current;
+				if (!(floatingDiv && event.relatedTarget instanceof Element && floatingDiv.contains(event.relatedTarget))) {
+					setVisibled(false);
+				}
+			};
+			useEffect(() => {
+				if (floatingDivRef.current) {
+					floatingDivRef.current.focus();
+				}
+			});
+			useImperativeHandle(ref, () => ({
+				setPositionByMouseEvent(event: MouseEvent) {
+					event.preventDefault();
+					this.setPosition(event.pageX, event.pageY);
+				},
+				setPosition(x: number, y: number) {
+					setX(x);
+					setY(y);
+					setVisibled(true);
+				}
+			}));
+			return (
+				createBodyPortal(
+					visibled && <FloatingDiv
+						ref={floatingDivRef}
+						onBlur={onFloatingDivBlur}
+						{...{x, y, children}}
+					/>
+				)
+			);
 		}
-	}
-}
+	)
+);
+
+export default Floating;
