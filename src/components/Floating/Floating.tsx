@@ -1,28 +1,8 @@
-import React, {createRef, useEffect, useState, forwardRef, useImperativeHandle} from 'react';
-import {PropsWithChildren, MouseEventHandler, MouseEvent, FocusEvent} from 'react';
-import elementContainsRelatedTarget from '../../functions/elementContainsRelatedTarget';
+import React, {forwardRef, PropsWithChildren} from 'react';
 import createBodyPortal from '../../functions/createBodyPortal';
-import offsetOverflow from '../../functions/offsetOverflow';
-import {FloatingDiv} from './Floating.style';
-
-interface IFloatingProps {
-
-}
-
-export interface IFloatingImperativeHandle {
-	/**
-	 * Обработчик клика правой кнопкой мышки.
-	 * Изменяет координаты плавающего элемента на основе события
-	 * мышки (берутся свойства event.pageX и event.pageY).
-	 */
-	onContextMenu: MouseEventHandler;
-
-	/**
-	 * Изменить координаты плавающего элемента.
-	 * После изменения координат элемент становится видимым.
-	 */
-	setPosition: (x: number, y: number) => void;
-}
+import IFloatingImperativeHandle from './IFloatingImperativeHandle';
+import useFloating from './useFloating';
+import FocusableDiv from './FocusableDiv';
 
 /**
  * Плавающий элемент.
@@ -31,41 +11,23 @@ export interface IFloatingImperativeHandle {
  * @link https://stackoverflow.com/questions/54654303/using-a-forwardref-component-with-children-in-typescript
  */
 const Floating = (
-	forwardRef<IFloatingImperativeHandle, PropsWithChildren<IFloatingProps>>(
+	forwardRef<IFloatingImperativeHandle, PropsWithChildren<{}>>(
 		(props, ref) => {
 			const {children} = props;
-			const [visibled, setVisibled] = useState(false);
-			const [position, setPosition] = useState({x: 0, y: 0});
-			const floatingDivRef = createRef<HTMLDivElement>();
-			const onFloatingDivBlur = (event: FocusEvent) => {
-				// Скрываем плавающий элемент, если event.relatedTarget находится снаружи.
-				if (!elementContainsRelatedTarget(floatingDivRef, event)) {
-					setVisibled(false);
-				}
-			};
-			useEffect(() => {
-				if (floatingDivRef.current) {
-					floatingDivRef.current.focus();
-					setPosition(offsetOverflow(floatingDivRef.current));
-				}
-			}, [position.x, position.y]);
-			useImperativeHandle(ref, () => ({
-				onContextMenu(event: MouseEvent) {
-					event.preventDefault();
-					this.setPosition(event.pageX, event.pageY);
-				},
-				setPosition(x: number, y: number) {
-					setPosition({x, y});
-					setVisibled(true);
-				}
-			}));
+			const [onFloatingDivBlur, floatingDivRef, position, visibled] = useFloating<HTMLDivElement>(ref);
 			return (
 				createBodyPortal(
 					visibled && (
-						<FloatingDiv
+						<FocusableDiv
 							ref={floatingDivRef}
 							onBlur={onFloatingDivBlur}
-							{...{...position, children}}
+							children={children}
+							style={{
+								position: 'absolute',
+								outline: 'none',
+								left: position.x,
+								top: position.y
+							}}
 						/>
 					)
 				)

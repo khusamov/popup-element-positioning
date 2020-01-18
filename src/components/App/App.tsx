@@ -1,7 +1,7 @@
 import React, {Component, createRef, MouseEvent} from 'react';
 import {observer} from 'mobx-react';
 import Floating from '../Floating';
-import {IFloatingImperativeHandle} from '../Floating/Floating';
+import IFloatingImperativeHandle from '../Floating/IFloatingImperativeHandle';
 import {FloatingExampleContent} from './App.style';
 
 @observer
