@@ -1,36 +1,38 @@
-import React, {Component, createRef, MouseEvent} from 'react';
-import {observer} from 'mobx-react';
+import React, {FC, MouseEvent, useState, Fragment} from 'react';
 import Floating from '../Floating';
-import IFloatingImperativeHandle from '../Floating/IFloatingImperativeHandle';
+import useFloatingRef from '../Floating/useFloatingRef';
 import {FloatingExampleContent} from './App.style';
 
-@observer
-export default class App extends Component {
-	floatingRef = createRef<IFloatingImperativeHandle>();
+const App: FC = () => {
+	const floatingRef = useFloatingRef();
 
-	render() {
-		return (
-			<div onContextMenu={this.onDivContextMenu}>
+	const [selected, setSelected] = useState<string | null>(null);
 
-				<Floating ref={this.floatingRef}>
-					<FloatingExampleContent>
-						<div>Плавающий блок:</div>
-						<div><input/></div>
-					</FloatingExampleContent>
-				</Floating>
-
-				<p>React application on RollupJS.</p>
-				<p>React application on RollupJS.</p>
-				<p>React application on RollupJS.</p>
-				<p>React application on RollupJS.</p>
-				<p>React application on RollupJS.</p>
-			</div>
-		);
-	}
-
-	private onDivContextMenu = (event: MouseEvent<HTMLDivElement>) => {
-		if (this.floatingRef.current) {
-			this.floatingRef.current.onContextMenu(event);
+	const onDivContextMenu = (event: MouseEvent<HTMLDivElement>) => {
+		if (floatingRef.current) {
+			floatingRef.current.onContextMenu(event);
+			setSelected((event.target as HTMLElement).getAttribute('data-item'))
 		}
 	};
+
+	return (
+		<Fragment>
+			<Floating ref={floatingRef}>
+				<FloatingExampleContent>
+					<div>Плавающий блок:</div>
+					<div><input/></div>
+					<div>Связанный элемент: {selected}</div>
+				</FloatingExampleContent>
+			</Floating>
+			<div onContextMenu={onDivContextMenu}>
+				<p data-item='Пункт1'>React application on RollupJS.</p>
+				<p data-item='Пункт2'>React application on RollupJS.</p>
+				<p data-item='Пункт3'>React application on RollupJS.</p>
+				<p data-item='Пункт4'>React application on RollupJS.</p>
+				<p data-item='Пункт5'>React application on RollupJS.</p>
+			</div>
+		</Fragment>
+	);
 };
+
+export default App;
