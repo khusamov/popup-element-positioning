@@ -82,7 +82,7 @@ export default {
 			namedExports: {
 				'react': ['Children', 'Component', 'PropTypes', 'createElement', 'useState',
 					'useRef', 'useMemo', 'useEffect', 'useCallback', 'useDebugValue', 'memo', 'forwardRef',
-					'PureComponent', 'createRef', 'useImperativeHandle', 'useLayoutEffect'],
+					'PureComponent', 'createRef', 'useImperativeHandle', 'useLayoutEffect', 'Fragment'],
 				'react-dom': ['render', 'unstable_batchedUpdates', 'createPortal'],
 				'@material-ui/utils': ['getDisplayName', 'exactProp', 'deepmerge', 'chainPropTypes', 'ponyfillGlobal']
 			}
