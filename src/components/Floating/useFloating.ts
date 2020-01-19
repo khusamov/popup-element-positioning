@@ -33,9 +33,9 @@ export default function useFloating<R extends HTMLElement>(ref: Ref<IFloatingImp
 	useImperativeHandle(ref, () => ({
 		onContextMenu(event: MouseEvent) {
 			event.preventDefault();
-			this.setPosition(event.pageX, event.pageY);
+			this.showAt(event.pageX, event.pageY);
 		},
-		setPosition(x: number, y: number) {
+		showAt(x: number, y: number) {
 			setPosition({x, y});
 			setVisibled(true);
 		}

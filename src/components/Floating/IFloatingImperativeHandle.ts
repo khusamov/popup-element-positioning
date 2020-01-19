@@ -12,8 +12,7 @@ export default interface IFloatingImperativeHandle {
 	onContextMenu: MouseEventHandler;
 
 	/**
-	 * Изменить координаты плавающего элемента.
-	 * После изменения координат элемент становится видимым.
+	 * Показать плавающий элемент, переместив его по определенным координатам.
 	 */
-	setPosition: (x: number, y: number) => void;
+	showAt: (x: number, y: number) => void;
 }
